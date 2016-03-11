@@ -48,6 +48,12 @@ def execute_register(email, password):
 
     return True, {"user": user}, None
 
+
 def list():
     users = get_users()
     return True, {'users': users}, None
+
+
+def send_email(user):
+    # TODO: send e-mail
+    return True, {}, None

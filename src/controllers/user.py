@@ -6,6 +6,7 @@ from utils.authorization import login_required
 from validators.user import LoginValidator, RegisterValidator
 from validators.validator import with_validators
 
+
 class List(Controller):
     @login_required
     def get(self, request):
@@ -15,6 +16,7 @@ class List(Controller):
             return BadRequest(errors)
 
         return Ok({'users': [u.toJSONDict() for u in result['users']]})
+
 
 class Login(Controller):
     @with_validators([LoginValidator])

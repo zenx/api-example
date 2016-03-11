@@ -5,6 +5,7 @@ It's a very simple API made with <a href="https://github.com/jespino/anillo/" ta
 * You need to copy <em>myapp.ini</em> and <em>pytest.ini</em> files outside the repository
 * You need to export two env vars: MY_APP and MY_APP_TEST, pointing the previous files
 * You need sqlite (usually it's in all Linux)
+* You need redis >= 2.8.0
 * I encourage you to use a virtualenv (with Python3!!!)
 * You need to install <em>requirements.txt</em> and <em>requirements-server.txt</em>
 

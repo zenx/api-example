@@ -40,6 +40,15 @@ def configure_environment():
     if environ.get('MY_APP_LOGIN_SECRET'):
         config.set('login', 'secret', environ.get('MY_APP_LOGIN_SECRET'))
 
+    if environ.get('MY_APP_REDIS_HOST'):
+        config.set('redis', 'host', environ.get('MY_APP_REDIS_HOST'))
+
+    if environ.get('MY_APP_REDIS_PORT'):
+        config.set('redis', 'port', environ.get('MY_APP_REDIS_PORT'))
+
+    if environ.get('MY_APP_REDIS_DB'):
+        config.set('redis', 'db', environ.get('MY_APP_REDIS_DB'))
+
 
 # First, set the config file
 set_config_file()

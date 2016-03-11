@@ -16,3 +16,4 @@ class Controller:
         elif request.method == "OPTIONS":
             return responses.Ok()
         return responses.MethodNotAllowed()
+

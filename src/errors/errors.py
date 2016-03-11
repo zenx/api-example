@@ -1,4 +1,5 @@
 from utils.exceptions import ErrorKeyDoesntExistError
+from .artist import _response_errors as _artist_response_errors
 
 _response_errors = {
     "NOT_LOGGED": "You need to login",
@@ -7,6 +8,9 @@ _response_errors = {
     "NOT_AN_EMAIL": "Not an email",
     "CANT_BE_EMPTY": "Can't be empty"
 }
+
+# include artist response errors
+_response_errors.update(_artist_response_errors)
 
 
 def get_response_error(error_key):

@@ -1,6 +1,6 @@
 from anillo.http.request import Request
 
-from controllers.user import Register, Validate
+from controllers.user import Register
 from repositories.user import create_user
 
 

@@ -12,7 +12,8 @@ def create_user(email, password, uuid=None):
     user_row = UserTable(
             uuid=uuid,
             email=email,
-            password=hashpw(password, gensalt()))
+            password=hashpw(password, gensalt()),
+            enabled=True)
     sm.session.add(user_row)
     sm.session.commit()
     return _user_row_to_user(user_row)
@@ -41,7 +42,8 @@ def _user_row_to_user(user_row):
         return User(
                 uuid=user_row.uuid,
                 email=user_row.email,
-                password=user_row.password)
+                password=user_row.password,
+                enabled=user_row.enabled)
     return None
 
 

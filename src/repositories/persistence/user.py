@@ -10,6 +10,7 @@ class UserTable(Base):
     uuid = Column(Text, index=True, unique=True)
     email = Column(Text, index=True)
     password = Column(Text)
+    enabled = Column(Boolean, index=True)
 
     def __repr__(self):
         return "repositories.UserTable: {}".format(self.email)

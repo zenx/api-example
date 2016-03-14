@@ -7,8 +7,7 @@ class User(Entity):
         self.email = kwargs['email']
         self.password = kwargs['password']
         self.uuid = kwargs['uuid']
-        if 'enabled' in kwargs:
-            self.enabled = kwargs['enabled']
+        self.enabled = kwargs['enabled']
 
     def __repr__(self):
         return "entities.User: {}".format(self.email)

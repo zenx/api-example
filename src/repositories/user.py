@@ -32,7 +32,7 @@ def get_users():
     users = sm.session.query(UserTable).all()
     return [_user_row_to_user(user_row) for user_row in users]
 
-def _get_user_by_id(id):
+def get_user_by_id(id):
     user_row = sm.session.query(UserTable).get(id)
     return _user_row_to_user(user_row)
 
@@ -40,6 +40,7 @@ def _get_user_by_id(id):
 def _user_row_to_user(user_row):
     if user_row:
         return User(
+                id=user_row.id,
                 uuid=user_row.uuid,
                 email=user_row.email,
                 password=user_row.password,

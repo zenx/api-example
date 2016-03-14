@@ -6,7 +6,8 @@ _response_errors = {
     "WRONG_EMAIL": "Wrong email or password",
     "EMAIL_ALREADY_REGISTERED": "This email is already registered",
     "NOT_AN_EMAIL": "Not an email",
-    "CANT_BE_EMPTY": "Can't be empty"
+    "CANT_BE_EMPTY": "Can't be empty",
+    "USER_ID_NOT_FOUND": "User with the given id not found"
 }
 
 # include artist response errors

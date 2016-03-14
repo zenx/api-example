@@ -32,7 +32,7 @@ def with_validators(validator_list):
             if errors:
                 return BadRequest(errors)
 
-            return func(instance, request, data)
+            return func(instance, request, data, **kwargs)
 
         return returned_wrapper
 

@@ -155,13 +155,13 @@ def test_like_unlike_artist_ok():
 
     # create user
     created, data, errors = register('test@test.com', '1234')
-    user_uuid = data['user'].uuid
+    user_id = data['user'].id
 
     # like artist
-    like(user_uuid, artist_id)
+    like(user_id, artist_id)
 
     # check user artist likes
-    user_likes_key = 'user:{}:likes'.format(user_uuid)
+    user_likes_key = 'user:{}:likes'.format(user_id)
     user_likes_artist_ids = r.smembers(user_likes_key)
 
     assert user_likes_artist_ids
@@ -169,7 +169,7 @@ def test_like_unlike_artist_ok():
     assert int(user_likes_artist_ids.pop()) == artist_id
 
     # unlike artist
-    unlike(user_uuid, artist_id)
+    unlike(user_id, artist_id)
 
     # remove user artist like
     assert not user_likes_artist_ids

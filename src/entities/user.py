@@ -1,13 +1,15 @@
 from .entity import Entity
 
+
 class User(Entity):
     def __init__(self, *args, **kwargs):
         if 'id' in kwargs:
-            self.id = ['id']
+            self.id = kwargs['id']
         self.email = kwargs['email']
         self.password = kwargs['password']
         self.uuid = kwargs['uuid']
-        self.enabled = kwargs['enabled']
+        if 'enabled' in kwargs:
+            self.enabled = kwargs['enabled']
 
     def __repr__(self):
         return "entities.User: {}".format(self.email)

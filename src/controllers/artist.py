@@ -4,94 +4,85 @@ from controllers.controller import Controller
 from utils.authorization import login_required
 from validators.validator import with_validators
 
-from validators.artist import ArtistValidator
+from validators.artist import ArtistValidator, ArtistLikeValidator
 from services.artist import list, create, update, get, delete, like, unlike, \
                             get_user_artist_likes, get_similar_artists
 
 
 class Get(Controller):
-    #@login_required
-    def get(self, request):
-        success, result, errors = create()
+    def get(self, request, id):
+        success, result, errors = get(id)
 
-        if errors:
+        if not success:
             return BadRequest(errors)
 
-        return Ok({'users': [u.toJSONDict() for u in result['users']]})
+        return Ok({"artist": result["artist"].toJSONDict()})
 
 
 class List(Controller):
-    #@login_required
     def get(self, request):
         success, result, errors = list()
 
-        if errors:
+        if not success:
             return BadRequest(errors)
 
-        return Ok({'users': [u.toJSONDict() for u in result['users']]})
+        return Ok({'artists': [u.toJSONDict() for u in result['artists']]})
 
 
 class Create(Controller):
-    #@login_required
     @with_validators([ArtistValidator])
     def post(self, request, data):
         success, result, errors = create(
                 data["artist_data"].name,
                 data["artist_data"].biography
         )
-        if errors:
+        if not success:
             return BadRequest(errors)
 
-        return Ok(result)
+        return Ok({"artist": result["artist"].toJSONDict()})
 
 
 class Update(Controller):
-    #@login_required
     @with_validators([ArtistValidator])
-    def put(self, request, id, data):
+    def put(self, request, data, id):
         success, result, errors = update(
-                data["artist"].id,
-                data["artist"].name,
-                data["artist"].biography
+                id,
+                data["artist_data"].name,
+                data["artist_data"].biography
         )
-        if errors:
+        if not success:
             return BadRequest(errors)
 
-        return Ok(result)
+        return Ok({"artist": result["artist"].toJSONDict()})
 
 
 class Delete(Controller):
-    #@login_required
     def delete(self, request, id):
         success, result, errors = delete(id)
 
-        if errors:
+        if not success:
             return BadRequest(errors)
 
-        return Ok(result)
+        return Ok({"deleted": True})
 
 
 class Like(Controller):
-    #@login_required
-    def post(request, id):
-        # get user
-        user = request.get('identity')
-        success, result, errors = like(user.uuuid, id)
+    @with_validators([ArtistLikeValidator])
+    def post(self, request, data, id):
+        success, result, errors = like(data["like_data"].user_id, id)
 
-        if errors:
+        if not success:
             return BadRequest(errors)
 
-        return Ok(result)
+        return Ok({"like": True})
 
 
 class Unlike(Controller):
-    #@login_required
-    def post(request, id):
-        # get user
-        user = request.get('identity')
-        success, result, errors = unlike(user.uuuid, id)
+    @with_validators([ArtistLikeValidator])
+    def post(self, request, data, id):
+        success, result, errors = like(data["like_data"].user_id, id)
 
-        if errors:
+        if not success:
             return BadRequest(errors)
 
-        return Ok(result)
+        return Ok({"unlike": True})

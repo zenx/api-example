@@ -17,3 +17,14 @@ class ArtistValidator(Validator):
             self.name = self.cleaned_data['name']
             self.biography = self.cleaned_data['biography']
 
+
+class ArtistLikeValidator(Validator):
+    key_name = 'like_data'
+    __schema__ = b.schema({
+        'user_id': s.NotEmpty(get_response_error("CANT_BE_EMPTY")),
+    })
+
+    def __init__(self, data: dict):
+        super().__init__(data)
+        if self.cleaned_data:
+            self.user_id = self.cleaned_data['user_id']

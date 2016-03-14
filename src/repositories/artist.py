@@ -61,37 +61,46 @@ def get_artists_by_similarity(artist_id, max_results=10):
     return [_artist_row_to_artist(artist_row) for artist_row in artists]
 
 
-def get_artist_likes_for_user(user_uuid):
-    artist_ids = r.smembers('user:{}:likes'.format(user_uuid))
+def get_artist_likes_for_user(user_id):
+    artist_ids = r.smembers('user:{}:likes'.format(user_id))
     artists = sm.session.query(ArtistTable).filter(ArtistTable.id.in_(artist_ids)).all()
     return [_artist_row_to_artist(artist_row) for artist_row in artists]
 
 
-def like_artist(user_uuid, artist_id):
-    user_likes_key = 'user:{}:likes'.format(user_uuid)
+def like_artist(user_id, artist_id):
+    user_likes_key = 'user:{}:likes'.format(user_id)
     if not r.sismember(user_likes_key, artist_id):
         # artist not in user likes: add it
-        r.sadd(user_likes_key, artist_id)
+        added = r.sadd(user_likes_key, artist_id)
         # udpate artist likes
         user_artist_likes = [id for id in r.smembers(user_likes_key) if id != artist_id]
         _update_artist_likes(artist_id, user_artist_likes, 'like')
+
+        if added > 0:
+            return True
+        else:
+            return False
+    else:
         return True
-    return False
 
 
-def unlike_artist(user_uuid, artist_id):
-    user_likes_key = 'user:{}:likes'.format(user_uuid)
+def unlike_artist(user_id, artist_id):
+    user_likes_key = 'user:{}:likes'.format(user_id)
     if not r.sismember(user_likes_key, artist_id):
         # artist is in user likes: remove it
-        user_likes_key = 'user:{}:likes'.format(user_uuid)
-        r.srem(user_likes_key, artist_id)
+        user_likes_key = 'user:{}:likes'.format(user_id)
+        removed = r.srem(user_likes_key, artist_id)
 
         # udpate artist likes
         user_artist_likes = [id for id in r.smembers(user_likes_key) if id != artist_id]
         _update_artist_likes(artist_id, user_artist_likes, 'unlike')
         
+        if removed > 0:
+            return True
+        else:
+            return False
+    else:
         return True
-    return False
 
 
 def _update_artist_likes(artist_id, artist_ids, action):
